@@ -1,1 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Stats Dashboard</title>
+    <!-- Link para o ficheiro CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="8" r="7"></circle>
+                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                </svg>
+                NBA Stats Dashboard
+            </h1>
+            <p id="playerCount">Carrega o ficheiro JSON para começar</p>
+        </div>
 
+        <!-- Upload Section -->
+        <div class="upload-section" id="uploadSection">
+            <h2>📁 Carregar Ficheiro JSON</h2>
+            <p>Seleciona o ficheiro <strong>statsa.json</strong> com os dados dos jogadores</p>
+            <div class="file-input-wrapper">
+                <input type="file" id="fileInput" accept=".json" />
+                <label for="fileInput" class="file-input-label">
+                    📤 Escolher Ficheiro
+                </label>
+            </div>
+            <p id="fileName" style="margin-top: 16px; color: #10b981; font-weight: 600;"></p>
+        </div>
+
+        <div id="errorMessage" class="error-message hidden"></div>
+
+        <!-- Filters -->
+        <div class="filters hidden" id="filtersSection">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label>🔍 Pesquisar Jogador</label>
+                    <input type="text" id="searchInput" placeholder="Nome do jogador...">
+                </div>
+                <div class="filter-group">
+                    <label>Equipa</label>
+                    <select id="teamFilter">
+                        <option value="all">Todas as Equipas</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Ordenar por</label>
+                    <select id="sortBy">
+                        <option value="points">Pontos</option>
+                        <option value="rebounds">Ressaltos</option>
+                        <option value="assists">Assistências</option>
+                        <option value="fg3PtMade">Triplos Marcados</option>
+                        <option value="steals">Roubos de Bola</option>
+                        <option value="blocks">Bloqueios</option>
+                        <option value="fantasyPts">Fantasy Points</option>
+                        <option value="pointsReboundsAssists">PTS + REB + AST</option>
+                    </select>
+                </div>
+            </div>
+            <div class="result-count" id="resultCount"></div>
+        </div>
+
+        <!-- Back Button -->
+        <button class="back-button hidden" id="backButton">← Voltar à lista</button>
+
+        <!-- Player Details -->
+        <div id="playerDetails" class="hidden"></div>
+
+        <!-- Players Grid -->
+        <div class="players-grid hidden" id="playersGrid"></div>
+
+        <!-- Empty State -->
+        <div class="empty-state hidden" id="emptyState">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <p style="font-size: 18px;">Nenhum jogador encontrado</p>
+        </div>
+    </div>
+
+    <!-- Links para os ficheiros JavaScript -->
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
