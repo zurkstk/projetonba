@@ -1,113 +1,5 @@
 [
     {
-        "id": "1b244e27-f093-40bb-88ec-69b23782cecb",
-        "home": "CHA",
-        "away": "BKN",
-        "date": "2025-10-22",
-        "time": "2025-10-22T23:00:00Z",
-        "sdioId": 22545,
-        "srId": "1b244e27-f093-40bb-88ec-69b23782cecb"
-    },
-    {
-        "id": "ea0eb115-4d33-4004-b780-ab3e7eb8e0b5",
-        "home": "ORL",
-        "away": "MIA",
-        "date": "2025-10-22",
-        "time": "2025-10-22T23:00:00Z",
-        "sdioId": 22546,
-        "srId": "ea0eb115-4d33-4004-b780-ab3e7eb8e0b5"
-    },
-    {
-        "id": "f6812d8c-35ce-4512-940c-94060d6bb942",
-        "home": "NYK",
-        "away": "CLE",
-        "date": "2025-10-22",
-        "time": "2025-10-22T23:00:00Z",
-        "sdioId": 22435,
-        "srId": "f6812d8c-35ce-4512-940c-94060d6bb942"
-    },
-    {
-        "id": "45740870-bc38-4839-945c-e4f24725b029",
-        "home": "ATL",
-        "away": "TOR",
-        "date": "2025-10-22",
-        "time": "2025-10-22T23:30:00Z",
-        "sdioId": 22547,
-        "srId": "45740870-bc38-4839-945c-e4f24725b029"
-    },
-    {
-        "id": "f8e213c8-8826-4379-a924-4d0cdbb11c5c",
-        "home": "BOS",
-        "away": "PHI",
-        "date": "2025-10-22",
-        "time": "2025-10-22T23:30:00Z",
-        "sdioId": 22548,
-        "srId": "f8e213c8-8826-4379-a924-4d0cdbb11c5c"
-    },
-    {
-        "id": "87ea2012-89e7-44b6-997d-e26b0c0259fa",
-        "home": "MEM",
-        "away": "NOP",
-        "date": "2025-10-22",
-        "time": "2025-10-23T00:00:00Z",
-        "sdioId": 22550,
-        "srId": "87ea2012-89e7-44b6-997d-e26b0c0259fa"
-    },
-    {
-        "id": "97f3d57a-7f8a-47c1-bcf3-f51ba252663f",
-        "home": "CHI",
-        "away": "DET",
-        "date": "2025-10-22",
-        "time": "2025-10-23T00:00:00Z",
-        "sdioId": 22549,
-        "srId": "97f3d57a-7f8a-47c1-bcf3-f51ba252663f"
-    },
-    {
-        "id": "fd7b67bd-cbca-4e55-9a43-1da4f9b87c48",
-        "home": "MIL",
-        "away": "WAS",
-        "date": "2025-10-22",
-        "time": "2025-10-23T00:00:00Z",
-        "sdioId": 22551,
-        "srId": "fd7b67bd-cbca-4e55-9a43-1da4f9b87c48"
-    },
-    {
-        "id": "bab1225d-4bf7-4d89-9ad9-345cbaca4ce2",
-        "home": "UTA",
-        "away": "LAC",
-        "date": "2025-10-22",
-        "time": "2025-10-23T01:00:00Z",
-        "sdioId": 22552,
-        "srId": "bab1225d-4bf7-4d89-9ad9-345cbaca4ce2"
-    },
-    {
-        "id": "1661d7f0-ee47-47d2-9887-4d0692405365",
-        "home": "DAL",
-        "away": "SAS",
-        "date": "2025-10-22",
-        "time": "2025-10-23T01:30:00Z",
-        "sdioId": 22436,
-        "srId": "1661d7f0-ee47-47d2-9887-4d0692405365"
-    },
-    {
-        "id": "0c1087ab-0c42-4a54-873f-9107f6a229d8",
-        "home": "PHX",
-        "away": "SAC",
-        "date": "2025-10-22",
-        "time": "2025-10-23T02:00:00Z",
-        "sdioId": 22553,
-        "srId": "0c1087ab-0c42-4a54-873f-9107f6a229d8"
-    },
-    {
-        "id": "8b9e2b5a-e89b-4b4e-81dc-0ad923fb14c2",
-        "home": "POR",
-        "away": "MIN",
-        "date": "2025-10-22",
-        "time": "2025-10-23T02:00:00Z",
-        "sdioId": 22554,
-        "srId": "8b9e2b5a-e89b-4b4e-81dc-0ad923fb14c2"
-    },
-    {
         "id": "cfdbd61e-5a31-43e9-835d-d20cc3fbc118",
         "home": "IND",
         "away": "OKC",
@@ -126,6 +18,15 @@
         "srId": "59b2caa3-dcb2-49b6-a39c-3ec99875f2fc"
     },
     {
+        "id": "3ef41571-c5af-41e5-846b-8a5b4aaf3cf2",
+        "home": "TOR",
+        "away": "MIL",
+        "date": "2025-10-24",
+        "time": "2025-10-24T22:30:00Z",
+        "sdioId": 22557,
+        "srId": "3ef41571-c5af-41e5-846b-8a5b4aaf3cf2"
+    },
+    {
         "id": "02c5c217-0ba7-496b-860d-74c19daa5d36",
         "home": "ORL",
         "away": "ATL",
@@ -142,15 +43,6 @@
         "time": "2025-10-24T23:30:00Z",
         "sdioId": 22556,
         "srId": "28bf57c1-11c5-454f-a246-1c36b8b46c64"
-    },
-    {
-        "id": "3ef41571-c5af-41e5-846b-8a5b4aaf3cf2",
-        "home": "TOR",
-        "away": "MIL",
-        "date": "2025-10-24",
-        "time": "2025-10-24T23:30:00Z",
-        "sdioId": 22557,
-        "srId": "3ef41571-c5af-41e5-846b-8a5b4aaf3cf2"
     },
     {
         "id": "59d9f86a-963c-4e08-b2d9-4eac66e4c734",
@@ -232,5 +124,50 @@
         "time": "2025-10-25T02:30:00Z",
         "sdioId": 22564,
         "srId": "19850843-6a5c-4479-a7d2-27f844b8a4c7"
+    },
+    {
+        "id": "8e139915-e199-4aab-8811-d1a942ef8e85",
+        "home": "ORL",
+        "away": "CHI",
+        "date": "2025-10-25",
+        "time": "2025-10-25T23:00:00Z",
+        "sdioId": 22565,
+        "srId": "8e139915-e199-4aab-8811-d1a942ef8e85"
+    },
+    {
+        "id": "5932ddf0-170a-4ccb-a5ac-855aa3a7c0fe",
+        "home": "ATL",
+        "away": "OKC",
+        "date": "2025-10-25",
+        "time": "2025-10-25T23:30:00Z",
+        "sdioId": 22566,
+        "srId": "5932ddf0-170a-4ccb-a5ac-855aa3a7c0fe"
+    },
+    {
+        "id": "9b08482f-a071-4a93-8e25-2c78ea8da5ac",
+        "home": "PHI",
+        "away": "CHA",
+        "date": "2025-10-25",
+        "time": "2025-10-25T23:30:00Z",
+        "sdioId": 22567,
+        "srId": "9b08482f-a071-4a93-8e25-2c78ea8da5ac"
+    },
+    {
+        "id": "ca96af69-b354-4e78-888a-19983b03dfeb",
+        "home": "MEM",
+        "away": "IND",
+        "date": "2025-10-25",
+        "time": "2025-10-26T00:00:00Z",
+        "sdioId": 22568,
+        "srId": "ca96af69-b354-4e78-888a-19983b03dfeb"
+    },
+    {
+        "id": "24f16339-521b-4849-a065-49f409abbde9",
+        "home": "DEN",
+        "away": "PHX",
+        "date": "2025-10-25",
+        "time": "2025-10-26T01:00:00Z",
+        "sdioId": 22569,
+        "srId": "24f16339-521b-4849-a065-49f409abbde9"
     }
 ]
