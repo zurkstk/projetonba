@@ -16,30 +16,42 @@ document.addEventListener('DOMContentLoaded', () => {
     loadSchedule();
     setupFileUpload();
     if (JSON_URL) loadFromURL(JSON_URL);
-
-    // 🔽 Adicionar opções de ordenação por diferença
-    const sortSelect = document.getElementById('sortBy');
-    if (sortSelect) {
-        const options = [
-            { value: 'diff_points', text: 'Diferença em Pontos (Proj − Line)' },
-            { value: 'diff_rebounds', text: 'Diferença em Ressaltos (Proj − Line)' },
-            { value: 'diff_assists', text: 'Diferença em Assistências (Proj − Line)' },
-            { value: 'diff_fg3PtMade', text: 'Diferença em Triplos (Proj − Line)' },
-            { value: 'diff_steals', text: 'Diferença em Roubos (Proj − Line)' },
-            { value: 'diff_blocks', text: 'Diferença em Bloqueios (Proj − Line)' },
-            { value: 'diff_pointsReboundsAssists', text: 'Diferença em PRA (Proj − Line)' },
-            { value: 'diff_fantasyPts', text: 'Diferença em Fantasy (Proj − Line)' }
-        ];
-        options.forEach(opt => {
-            if (!sortSelect.querySelector(`option[value="${opt.value}"]`)) {
-                const option = document.createElement('option');
-                option.value = opt.value;
-                option.textContent = opt.text;
-                sortSelect.appendChild(option);
-            }
-        });
-    }
+    
+    // Adicionar opções de ordenação (APENAS AQUI, sem duplicações)
+    setupSortOptions();
 });
+
+// ==================== CONFIGURAÇÃO DE ORDENAÇÃO ====================
+
+function setupSortOptions() {
+    const sortSelect = document.getElementById('sortBy');
+    if (!sortSelect) return;
+
+    const metrics = [
+        { key: 'points', label: 'Pontos' },
+        { key: 'rebounds', label: 'Ressaltos' },
+        { key: 'assists', label: 'Assistências' },
+        { key: 'fg3PtMade', label: 'Triplos' },
+        { key: 'steals', label: 'Roubos' },
+        { key: 'blocks', label: 'Bloqueios' },
+        { key: 'pointsReboundsAssists', label: 'PRA' },
+        { key: 'fantasyPts', label: 'Fantasy' }
+    ];
+
+    metrics.forEach(m => {
+        // Opção ascendente (menor para maior)
+        const optAsc = document.createElement('option');
+        optAsc.value = `diff_${m.key}_asc`;
+        optAsc.textContent = `Diferença em ${m.label} ↑ (Proj − Line)`;
+        sortSelect.appendChild(optAsc);
+
+        // Opção descendente (maior para menor)
+        const optDesc = document.createElement('option');
+        optDesc.value = `diff_${m.key}_desc`;
+        optDesc.textContent = `Diferença em ${m.label} ↓ (Proj − Line)`;
+        sortSelect.appendChild(optDesc);
+    });
+}
 
 // ==================== CARREGAMENTO DE DADOS ====================
 
@@ -196,46 +208,12 @@ function populateTeamFilter() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const sortSelect = document.getElementById('sortBy');
-    if (sortSelect) {
-        const metrics = [
-            { key: 'points', label: 'Pontos' },
-            { key: 'rebounds', label: 'Ressaltos' },
-            { key: 'assists', label: 'Assistências' },
-            { key: 'fg3PtMade', label: 'Triplos' },
-            { key: 'steals', label: 'Roubos' },
-            { key: 'blocks', label: 'Bloqueios' },
-            { key: 'pointsReboundsAssists', label: 'PRA' },
-            { key: 'fantasyPts', label: 'Fantasy' }
-        ];
-        metrics.forEach(m => {
-            const optAsc = document.createElement('option');
-            optAsc.value = `diff_${m.key}_asc`;
-            optAsc.textContent = `Diferença em ${m.label} ↑ (Proj − Line)`;
-            sortSelect.appendChild(optAsc);
-
-            const optDesc = document.createElement('option');
-            optDesc.value = `diff_${m.key}_desc`;
-            optDesc.textContent = `Diferença em ${m.label} ↓ (Proj − Line)`;
-            sortSelect.appendChild(optDesc);
-        });
-    }
-});
-
-// --- substitui a função getDiffValue existente por esta (retorna diferença assinada) ---
 function getSignedDiffValue(player, key) {
     const proj = Number(player.projections?.[key] ?? 0);
     const line = Number(player.lines?.[key] ?? 0);
-    return proj - line; // **assinado** (proj - line)
+    return proj - line;
 }
 
-// --- se quiseres manter também a opção por diferença absoluta, podes usar esta ---
-function getAbsDiffValue(player, key) {
-    return Math.abs(getSignedDiffValue(player, key));
-}
-
-// --- no getFilteredAndSortedPlayers: ajusta a lógica de ordenação por diff_... ---
 function getFilteredAndSortedPlayers() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase();
     const selectedTeam = document.getElementById('teamFilter').value;
@@ -248,17 +226,13 @@ function getFilteredAndSortedPlayers() {
     });
 
     if (sortBy.startsWith('diff_')) {
-        // formato esperado: diff_<key>_asc OR diff_<key>_desc
         const parts = sortBy.split('_');
-        // parts = ['diff', '<key>', 'asc'/'desc']
         const key = parts[1];
         const order = parts[2] || 'desc';
 
         filtered.sort((a, b) => {
             const diffA = getSignedDiffValue(a, key);
             const diffB = getSignedDiffValue(b, key);
-            // Para ordem ascendente: menor (mais negativo) primeiro
-            // Para ordem descendente: maior (mais positivo) primeiro
             return order === 'asc' ? diffA - diffB : diffB - diffA;
         });
     } else {
@@ -270,14 +244,6 @@ function getFilteredAndSortedPlayers() {
     }
 
     return filtered;
-}
-
-
-// Função auxiliar para calcular a diferença
-function getDiffValue(player, key) {
-    const proj = player.projections?.[key] ?? 0;
-    const line = player.lines?.[key] ?? 0;
-    return Math.abs(proj - line);
 }
 
 // ==================== RENDERIZAÇÃO DOS CARDS ====================
