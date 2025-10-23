@@ -39,19 +39,37 @@ function setupSortOptions() {
     ];
 
     metrics.forEach(m => {
-        // Opção ascendente (menor para maior)
+        // Diferença absoluta (já existe)
         const optAsc = document.createElement('option');
         optAsc.value = `diff_${m.key}_asc`;
         optAsc.textContent = `Diferença em ${m.label} ↑ (Proj − Line)`;
         sortSelect.appendChild(optAsc);
 
-        // Opção descendente (maior para menor)
         const optDesc = document.createElement('option');
         optDesc.value = `diff_${m.key}_desc`;
         optDesc.textContent = `Diferença em ${m.label} ↓ (Proj − Line)`;
         sortSelect.appendChild(optDesc);
+
+        // 💡 NOVO: diferença percentual
+        const optPercAsc = document.createElement('option');
+        optPercAsc.value = `perc_${m.key}_asc`;
+        optPercAsc.textContent = `Diferença % em ${m.label} ↑ (Proj vs Line)`;
+        sortSelect.appendChild(optPercAsc);
+
+        const optPercDesc = document.createElement('option');
+        optPercDesc.value = `perc_${m.key}_desc`;
+        optPercDesc.textContent = `Diferença % em ${m.label} ↓ (Proj vs Line)`;
+        sortSelect.appendChild(optPercDesc);
     });
 }
+
+function getPercentDiffValue(player, key) {
+    const proj = Number(player.projections?.[key] ?? 0);
+    const line = Number(player.lines?.[key] ?? 0);
+    if (line === 0) return 0;
+    return ((proj - line) / line) * 100;
+}
+
 
 // ==================== CARREGAMENTO DE DADOS ====================
 
@@ -214,6 +232,13 @@ function getSignedDiffValue(player, key) {
     return proj - line;
 }
 
+function getPercentDiff(player, key) {
+    const proj = Number(player.projections?.[key] ?? 0);
+    const line = Number(player.lines?.[key] ?? 0);
+    if (!line || line === 0) return 0;
+    return ((proj - line) / line) * 100;
+}
+
 function getFilteredAndSortedPlayers() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase();
     const selectedTeam = document.getElementById('teamFilter').value;
@@ -225,15 +250,20 @@ function getFilteredAndSortedPlayers() {
         return matchesSearch && matchesTeam;
     });
 
-    if (sortBy.startsWith('diff_')) {
+    if (sortBy.startsWith('diff_') || sortBy.startsWith('perc_')) {
         const parts = sortBy.split('_');
+        const type = parts[0]; // diff ou perc
         const key = parts[1];
         const order = parts[2] || 'desc';
 
         filtered.sort((a, b) => {
-            const diffA = getSignedDiffValue(a, key);
-            const diffB = getSignedDiffValue(b, key);
-            return order === 'asc' ? diffA - diffB : diffB - diffA;
+            const valA = type === 'diff'
+                ? getSignedDiffValue(a, key)
+                : getPercentDiffValue(a, key);
+            const valB = type === 'diff'
+                ? getSignedDiffValue(b, key)
+                : getPercentDiffValue(b, key);
+            return order === 'asc' ? valA - valB : valB - valA;
         });
     } else {
         filtered.sort((a, b) => {
@@ -242,6 +272,7 @@ function getFilteredAndSortedPlayers() {
             return valB - valA;
         });
     }
+
 
     return filtered;
 }
@@ -277,12 +308,19 @@ function createPlayerCard(player) {
         ? `<div class="game-info"><span>${gameInfo.venue} ${gameInfo.opponent} • ${gameInfo.date} ${gameInfo.time}</span></div>`
         : '';
 
-    function getIndicator(line, projection) {
+    function getIndicator(line, projection, key) {
         const projValue = projection.toFixed(1);
-        if (projection > line) return `<span class="projection-indicator projection-up">${projValue}</span>`;
-        if (projection < line) return `<span class="projection-indicator projection-down">${projValue}</span>`;
-        return `<span class="projection-indicator projection-same">${projValue}</span>`;
+        const percentDiff = line && line !== 0 ? ((projection - line) / line) * 100 : 0;
+        const sign = percentDiff > 0 ? '+' : '';
+        const percentText = ` (${sign}${percentDiff.toFixed(1)}%)`;
+
+        if (projection > line)
+            return `<span class="projection-indicator projection-up">${projValue}${percentText}</span>`;
+        if (projection < line)
+            return `<span class="projection-indicator projection-down">${projValue}${percentText}</span>`;
+        return `<span class="projection-indicator projection-same">${projValue}${percentText}</span>`;
     }
+
 
     card.innerHTML = `
         <div class="player-header">
@@ -294,29 +332,30 @@ function createPlayerCard(player) {
         </div>
 
         <div class="player-stats-grid">
-            ${createStatItem('PTS', player.lines.points, player.projections.points, getIndicator)}
-            ${createStatItem('REB', player.lines.rebounds, player.projections.rebounds, getIndicator)}
-            ${createStatItem('AST', player.lines.assists, player.projections.assists, getIndicator)}
-            ${createStatItem('3PM', player.lines.fg3PtMade, player.projections.fg3PtMade, getIndicator)}
-            ${createStatItem('STL', player.lines.steals, player.projections.steals, getIndicator)}
-            ${createStatItem('BLK', player.lines.blocks, player.projections.blocks, getIndicator)}
-            ${createStatItem('PRA', player.lines.pointsReboundsAssists, player.projections.pointsReboundsAssists, getIndicator)}
-            ${createStatItem('FAN', player.lines.fantasyPts, player.projections.fantasyPts, getIndicator)}
+            ${createStatItem('PTS', player.lines.points, player.projections.points, getIndicator, 'points')}
+            ${createStatItem('REB', player.lines.rebounds, player.projections.rebounds, getIndicator, 'rebounds')}
+            ${createStatItem('AST', player.lines.assists, player.projections.assists, getIndicator, 'assists')}
+            ${createStatItem('3PM', player.lines.fg3PtMade, player.projections.fg3PtMade, getIndicator, 'fg3PtMade')}
+            ${createStatItem('STL', player.lines.steals, player.projections.steals, getIndicator, 'steals')}
+            ${createStatItem('BLK', player.lines.blocks, player.projections.blocks, getIndicator, 'blocks')}
+            ${createStatItem('PRA', player.lines.pointsReboundsAssists, player.projections.pointsReboundsAssists, getIndicator, 'pointsReboundsAssists')}
+            ${createStatItem('FAN', player.lines.fantasyPts, player.projections.fantasyPts, getIndicator, 'fantasyPts')}
             <div class="stat-item"><div class="stat-value">${player.projections.minutes.toFixed(1)}</div><span class="projection-indicator projection-same">min</span><div class="stat-label">MIN</div></div>
         </div>
     `;
     return card;
 }
 
-function createStatItem(label, line, proj, indicatorFn) {
+function createStatItem(label, line, proj, indicatorFn, key) {
     return `
         <div class="stat-item">
             <div class="stat-value">${line ?? '-'}</div>
-            ${proj ? indicatorFn(line, proj) : ''}
+            ${proj ? indicatorFn(line, proj, key) : ''}
             <div class="stat-label">${label}</div>
         </div>
     `;
 }
+
 
 // ==================== DETALHES DO JOGADOR ====================
 
